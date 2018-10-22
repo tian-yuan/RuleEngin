@@ -27,9 +27,7 @@ public class RuleMetadataTest {
         kafka.setBrokers("localhost:9092");
         kafka.setTopic("test");
         action.setKafka(kafka);
-        List<Action> actionList = new ArrayList<>();
-        actionList.add(action);
-        ruleMetadata.setActions(actionList);
+        ruleMetadata.setAction(action);
         logger.info("rule metadata : " + JSON.toJSONString(ruleMetadata));
     }
 }

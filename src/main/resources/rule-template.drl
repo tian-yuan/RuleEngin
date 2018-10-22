@@ -1,0 +1,21 @@
+template header
+
+rule
+eventType
+
+package com.netease.push;
+
+global com.netease.push.destination.DestinationManager destinationManager;
+global com.netease.push.rule.Action action;
+
+template "filter"
+
+rule "filter_@{row.rowNumber}"
+when
+    m: @{eventType}(@{rule})
+then
+    m.setAction(action);
+    destinationManager.processMessage(m);
+end
+
+end template
