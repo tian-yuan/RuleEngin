@@ -34,6 +34,9 @@ public class TokenDeserializer implements Deserializer{
         int itemsCount = items.length;
         for (Field field : valueClass.getDeclaredFields()) {
             Key key = field.getAnnotation(Key.class);
+            if (key==null) {
+                continue;
+            }
             int index = key.value();
             if (index > itemsCount) {
                 continue;

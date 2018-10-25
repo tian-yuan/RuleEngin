@@ -7,7 +7,5 @@ import lombok.Data;
  */
 @Data
 public class Action {
-    private Kafka kafka;
-
     private Tsdb tsdb;
 }

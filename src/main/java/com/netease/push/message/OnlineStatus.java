@@ -1,5 +1,7 @@
 package com.netease.push.message;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.netease.push.message.deserializers.Key;
 import com.netease.push.rule.Action;
 import com.netease.push.rule.Event;
 import lombok.Data;
@@ -9,13 +11,15 @@ import lombok.Data;
  */
 @Data
 public class OnlineStatus extends Event {
-    private String topic;
 
-    private String deviceId;
-
-    private Integer onlineStatus;
-
-    private Long eventTime;
-
-    private String domain;
+    @JSONField(serialize=false)
+    public String topic;
+    @Key(0)
+    public String deviceId;
+    @Key(1)
+    public String onlineStatus;
+    @Key(2)
+    public String eventTime;
+    @Key(3)
+    public String domain;
 }

@@ -14,10 +14,10 @@ public class ActionTest {
     @Test
     public void shouldTestSuccess() {
         Action action = new Action();
-        Kafka kafka = new Kafka();
-        kafka.setBrokers("localhost:9092");
-        kafka.setTopic("test");
-        action.setKafka(kafka);
+//        Kafka kafka = new Kafka();
+//        kafka.setBrokers("localhost:9092");
+//        kafka.setTopic("test");
+//        action.setKafka(kafka);
         logger.info("action json string : " + JSON.toJSONString(action));
         logger.info("action : " + action.toString());
     }
