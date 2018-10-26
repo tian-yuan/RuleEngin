@@ -8,4 +8,6 @@ import lombok.Data;
 @Data
 public class Action {
     private Tsdb tsdb;
+
+    private Kafka kafka;
 }

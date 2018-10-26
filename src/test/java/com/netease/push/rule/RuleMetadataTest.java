@@ -23,10 +23,10 @@ public class RuleMetadataTest {
         ruleMetadata.setNpnsIotSqlVersion("2018-10-18");
 
         Action action = new Action();
-//        Kafka kafka = new Kafka();
-//        kafka.setBrokers("localhost:9092");
-//        kafka.setTopic("test");
-//        action.setKafka(kafka);
+        Kafka kafka = new Kafka();
+        kafka.setBrokers("localhost:9092");
+        kafka.setTopic("test");
+        action.setKafka(kafka);
         ruleMetadata.setAction(action);
         logger.info("rule metadata : " + JSON.toJSONString(ruleMetadata));
     }
