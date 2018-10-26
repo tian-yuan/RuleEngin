@@ -5,9 +5,10 @@ import com.netease.push.message.OnlineStatus;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.Statements;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.util.TablesNamesFinder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.drools.template.ObjectDataCompiler;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieFileSystem;
@@ -26,6 +27,8 @@ import java.util.Map;
  */
 @Component
 public class DynamicRuleParser {
+    private static Logger logger = LogManager.getLogger(DynamicRuleParser.class);
+
     @Autowired
     private DestinationManager destinationManager;
 

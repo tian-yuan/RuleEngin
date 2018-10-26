@@ -66,7 +66,7 @@ public class Consumer implements MessageListener<String, String>, ConfigChangeLi
     @Override
     public void onMessage(ConsumerRecord<String, String> data) {
         String message = data.value();
-        if (message==null) {
+        if (message == null) {
             return;
         }
         logger.info("message = " + message);

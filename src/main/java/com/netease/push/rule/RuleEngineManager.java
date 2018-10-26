@@ -11,10 +11,14 @@ import com.netease.push.kafka.KafkaProperties;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by hzliuzebo on 2018/10/26.
  */
+@Service
+@Configurable
 public class RuleEngineManager implements ConfigChangeListener{
     private static Logger logger = LogManager.getLogger(RuleEngineManager.class);
 
@@ -25,11 +29,11 @@ public class RuleEngineManager implements ConfigChangeListener{
     private Consumer consumer;
 
     private boolean isStarted = false;
+    private Config config;
 
-    private static RuleEngineManager ruleEngineManager = new RuleEngineManager();
-
-    public static RuleEngineManager getInstance() {
-        return ruleEngineManager;
+    public RuleEngineManager() {
+        this.config = ConfigService.getAppConfig();
+        this.config.addChangeListener(this);
     }
 
     public boolean isStarted() {
@@ -46,8 +50,8 @@ public class RuleEngineManager implements ConfigChangeListener{
     }
 
     private void updateRule() {
-        Config config = ConfigService.getAppConfig();
         String ruleConfig = config.getProperty("rule", "");
+        logger.info("rule config : " + ruleConfig);
         RuleMetadata ruleMetadata = JSON.parseObject(ruleConfig, RuleMetadata.class);
         if (ruleMetadata == null) {
             logger.error("get rule config error, config : " + ruleConfig);
@@ -57,7 +61,6 @@ public class RuleEngineManager implements ConfigChangeListener{
     }
 
     private void startKafkaConsumer() {
-        Config config = ConfigService.getAppConfig();
         String kafkaConfig = config.getProperty("kafka", "");
         KafkaProperties properties;
         if (kafkaConfig.equalsIgnoreCase("")) {
@@ -72,6 +75,7 @@ public class RuleEngineManager implements ConfigChangeListener{
         } else {
             properties = JSON.parseObject(kafkaConfig, KafkaProperties.class);
         }
+        logger.info("kafka config : " + JSON.toJSONString(properties));
         consumer.start(properties);
     }
 
@@ -87,6 +91,10 @@ public class RuleEngineManager implements ConfigChangeListener{
                     change.getOldValue() + " , newValue: " +
                     change.getNewValue() + " , changeType: " + change.getChangeType());
             if (key.equals("kafka")) {
+                stopKafkaConsumer();
+                startKafkaConsumer();
+            }
+            if (key.equals("rule")) {
                 RuleMetadata ruleMetadata = JSON.parseObject(change.getNewValue(), RuleMetadata.class);
                 if (ruleMetadata != null) {
                     updateRule();

@@ -4,10 +4,10 @@ import com.netease.push.rule.RuleEngineManager;
 import com.netease.push.utils.MonitorControl;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
@@ -19,8 +19,10 @@ import java.io.IOException;
 public class RuleEngine implements CommandLineRunner {
     private static Logger logger = LogManager.getLogger(RuleEngine.class);
 
+    @Autowired
+    private RuleEngineManager ruleEngineManager;
+
     public static void main( String[] args ) {
-        ConfigurableApplicationContext ctx = SpringApplication.run(RuleEngine.class, args);
         // do not need start web server
         // ConfigurableApplicationContext context = new SpringApplicationBuilder(PushApnsApplication.class).web(false).run(args);
         SpringApplication.run(RuleEngine.class, args);
@@ -33,7 +35,7 @@ public class RuleEngine implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        RuleEngineManager.getInstance().start();
+        ruleEngineManager.start();
         registerShutdownHook();
     }
 
@@ -45,8 +47,8 @@ public class RuleEngine implements CommandLineRunner {
 
             public void run() {
                 logger.info("push monitor agent application exit.");
-                if (RuleEngineManager.getInstance().isStarted()) {
-                    RuleEngineManager.getInstance().stop();
+                if (ruleEngineManager.isStarted()) {
+                    ruleEngineManager.stop();
                 }
             }
         }
