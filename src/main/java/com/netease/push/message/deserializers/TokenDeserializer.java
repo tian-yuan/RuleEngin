@@ -30,8 +30,8 @@ public class TokenDeserializer implements Deserializer{
         if (newInstance == null) {
             return null;
         }
-//        String[] items = message.split("\n");
-        String[] items = message.split(";");
+        String[] items = message.split("\n");
+//        String[] items = message.split(";");
         int itemsCount = items.length;
         for (Field field : valueClass.getDeclaredFields()) {
             Key key = field.getAnnotation(Key.class);
